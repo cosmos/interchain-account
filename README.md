@@ -14,8 +14,7 @@ make install
 
 In order to use the hermes relayer you will need to check out a specific branch that can be used with interchain-accounts. 
 
-Go to https://github.com/informalsystems/ibc-rs
-
+git clone https://github.com/informalsystems/ibc-rs
 git checkout adi/ibc-go-1-proto
 cd relayer-cli
 cargo build
@@ -44,7 +43,7 @@ icad tx intertx register --from val1 --connection-id connection-0 --chain-id tes
 make start-rly
 
 # Get the address of interchain account
-icad query ibcaccount address cosmos1mjk79fjjgpplak5wq838w0yd982gzkyfrk07am connection-0 --home ./data/test-2 --node tcp://localhost:26657
+icad query interchainaccounts address cosmos1mjk79fjjgpplak5wq838w0yd982gzkyfrk07am connection-0 --home ./data/test-2 --node tcp://localhost:26657
 # Output -> account_address: cosmos1plyxrjdepap2zgqmfpzfchmklwqhchq5jrctm0
 
 export IBC_ACCOUNT=cosmos1plyxrjdepap2zgqmfpzfchmklwqhchq5jrctm0
