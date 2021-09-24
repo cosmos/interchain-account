@@ -9,16 +9,14 @@ import (
 type Keeper struct {
 	cdc      codec.Codec
 	storeKey sdk.StoreKey
-	memKey   sdk.StoreKey
 
-	iaKeeper ibcacckeeper.Keeper
+	icaKeeper ibcacckeeper.Keeper
 }
 
 func NewKeeper(cdc codec.Codec, storeKey sdk.StoreKey, iaKeeper ibcacckeeper.Keeper) Keeper {
 	return Keeper{
-		cdc:      cdc,
-		storeKey: storeKey,
-
-		iaKeeper: iaKeeper,
+		cdc:       cdc,
+		storeKey:  storeKey,
+		icaKeeper: iaKeeper,
 	}
 }

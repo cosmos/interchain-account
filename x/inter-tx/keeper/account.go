@@ -4,14 +4,14 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// Calls the InitInterchainAccount fn which binds a new port for the account owner and opens a new ics27 channel
-func (keeper Keeper) RegisterInterchainAccount(
+// RegisterInterchainAccount invokes InitInterchainAccount which binds a new port for the account owner and initiates the ics27 channel handshake
+func (k Keeper) RegisterInterchainAccount(
 	ctx sdk.Context,
 	owner sdk.AccAddress,
-	connectionId string,
+	connectionID string,
+	counterpartyConnectionID string,
 ) error {
-	err := keeper.iaKeeper.InitInterchainAccount(ctx, connectionId, owner.String())
-	if err != nil {
+	if err := k.icaKeeper.InitInterchainAccount(ctx, connectionID, counterpartyConnectionID, owner.String()); err != nil {
 		return err
 	}
 

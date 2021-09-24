@@ -4,21 +4,26 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	icatypes "github.com/cosmos/ibc-go/modules/apps/27-interchain-accounts/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/cosmos/interchain-accounts/x/inter-tx/types"
 )
 
-// IBCAccountFromAddress implements the Query/IBCAccount gRPC method
-func (k Keeper) IBCAccountFromAddress(ctx context.Context, req *types.QueryIBCAccountFromAddressRequest) (*types.QueryIBCAccountFromAddressResponse, error) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
+// IBCAccountFromAddress implements the Query/IBCAccountFromAddress gRPC method
+func (k Keeper) IBCAccountFromAddress(c context.Context, req *types.QueryIBCAccountFromAddressRequest) (*types.QueryIBCAccountFromAddressResponse, error) {
 
-	portId := k.iaKeeper.GeneratePortId(req.Address.String(), req.ConnectionId)
-	addr, err := k.iaKeeper.GetInterchainAccountAddress(sdkCtx, portId)
+	portID, err := icatypes.GeneratePortID(req.Address.String(), req.ConnectionId, "")
 	if err != nil {
-		return nil, err
+		return nil, status.Errorf(codes.InvalidArgument, "failed to generate port identifier: %v", err)
 	}
 
-	ibcAccount := types.QueryIBCAccountFromAddressResponse{Address: addr}
+	ctx := sdk.UnwrapSDKContext(c)
+	addr, found := k.icaKeeper.GetInterchainAccountAddress(ctx, portID)
+	if !found {
+		return nil, status.Error(codes.NotFound, "failed to retrieve interchain account address")
+	}
 
-	return &ibcAccount, nil
+	return types.NewQueryIBCAccountFromAddressResponse(addr), nil
 }
