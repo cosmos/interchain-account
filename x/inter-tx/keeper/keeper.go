@@ -3,7 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ibcacckeeper "github.com/cosmos/ibc-go/modules/apps/27-interchain-accounts/keeper"
+	icacontrollerkeeper "github.com/cosmos/ibc-go/v2/modules/apps/27-interchain-accounts/controller/keeper"
 )
 
 type Keeper struct {
@@ -11,14 +11,14 @@ type Keeper struct {
 	storeKey sdk.StoreKey
 	memKey   sdk.StoreKey
 
-	iaKeeper ibcacckeeper.Keeper
+	icaControllerKeeper icacontrollerkeeper.Keeper
 }
 
-func NewKeeper(cdc codec.Codec, storeKey sdk.StoreKey, iaKeeper ibcacckeeper.Keeper) Keeper {
+func NewKeeper(cdc codec.Codec, storeKey sdk.StoreKey, iaKeeper icacontrollerkeeper.Keeper) Keeper {
 	return Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
 
-		iaKeeper: iaKeeper,
+		icaControllerKeeper: iaKeeper,
 	}
 }

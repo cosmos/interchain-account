@@ -9,8 +9,9 @@ func (keeper Keeper) RegisterInterchainAccount(
 	ctx sdk.Context,
 	owner sdk.AccAddress,
 	connectionId string,
+	counterpartyConnectionId string,
 ) error {
-	err := keeper.iaKeeper.InitInterchainAccount(ctx, connectionId, owner.String())
+	err := keeper.icaControllerKeeper.InitInterchainAccount(ctx, connectionId, counterpartyConnectionId, owner.String())
 	if err != nil {
 		return err
 	}

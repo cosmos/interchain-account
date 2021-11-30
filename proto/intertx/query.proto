@@ -21,6 +21,7 @@ message QueryIBCAccountFromAddressRequest {
     [ (gogoproto.casttype) =
        "github.com/cosmos/cosmos-sdk/types.AccAddress"];
   string connectionId = 2;
+  string counterpartyConnectionId = 3;
 }
  
 message QueryIBCAccountFromAddressResponse {

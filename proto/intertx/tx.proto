@@ -22,6 +22,7 @@ message MsgRegisterAccount {
 
   string owner = 1;
   string connectionId = 2;
+  string counterpartyConnectionId = 3;
 }
 
 message MsgRegisterAccountResponse {}
@@ -34,6 +35,7 @@ message MsgSend {
   repeated cosmos.base.v1beta1.Coin amount = 4
       [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
   string  connectionId = 5;
+  string  counterpartyConnectionId = 6;
 }
 
 // MsgSendResponse defines the Msg/Send response type.
