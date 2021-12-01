@@ -2,8 +2,10 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	icatypes "github.com/cosmos/ibc-go/v2/modules/apps/27-interchain-accounts/types"
+	channeltypes "github.com/cosmos/ibc-go/v2/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v2/modules/core/24-host"
 )
 
@@ -22,14 +24,22 @@ func (keeper Keeper) TrySendCoins(
 		return err
 	}
 
-	// TODO: err if not found
-	chanId, _ := keeper.icaControllerKeeper.GetActiveChannelID(ctx, portId)
+	chanId, found := keeper.icaControllerKeeper.GetActiveChannelID(ctx, portId)
+	if !found {
+		return sdkerrors.Wrapf(icatypes.ErrActiveChannelNotFound, "failed to retrieve active channel for port %s", portId)
+	}
 
-	// TODO: err if not found
-	chanCap, _ := keeper.scopedKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portId, chanId))
+	chanCap, found := keeper.scopedKeeper.GetCapability(ctx, host.ChannelCapabilityPath(portId, chanId))
+	if !found {
+		return sdkerrors.Wrap(channeltypes.ErrChannelCapabilityNotFound, "module does not own channel capability")
+	}
 
 	msg := &banktypes.MsgSend{FromAddress: fromAddr, ToAddress: toAddr, Amount: amt}
 	data, err := icatypes.SerializeCosmosTx(keeper.cdc, []sdk.Msg{msg})
+	if err != nil {
+		return err
+	}
+
 	packetData := icatypes.InterchainAccountPacketData{
 		Type: icatypes.EXECUTE_TX,
 		Data: data,

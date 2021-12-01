@@ -27,8 +27,8 @@ func GetQueryCmd() *cobra.Command {
 // getIBCAccountCmd builds a cobra command to query for an interchain account registered on this chain
 func getIBCAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "ibcaccount [account] [connection] ",
-		Args: cobra.ExactArgs(2),
+		Use:  "interchainaccounts [account] [connectionId] [counterpartyConnectionId]",
+		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -41,10 +41,14 @@ func getIBCAccountCmd() *cobra.Command {
 			}
 
 			connectionId := args[1]
+			counterpartyConnectionId := args[2]
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			res, err := queryClient.IBCAccountFromAddress(context.Background(), &types.QueryIBCAccountFromAddressRequest{Address: acc, ConnectionId: connectionId})
+			res, err := queryClient.IBCAccountFromAddress(
+				context.Background(),
+				&types.QueryIBCAccountFromAddressRequest{Address: acc, ConnectionId: connectionId, CounterpartyConnectionId: counterpartyConnectionId},
+			)
 			if err != nil {
 				return err
 			}

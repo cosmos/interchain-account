@@ -18,10 +18,12 @@ var _ sdk.Msg = &MsgRegisterAccount{}
 func NewMsgRegisterAccount(
 	owner,
 	connectionId string,
+	counterpartyConnectionId string,
 ) *MsgRegisterAccount {
 	return &MsgRegisterAccount{
-		Owner:        owner,
-		ConnectionId: connectionId,
+		Owner:                    owner,
+		ConnectionId:             connectionId,
+		CounterpartyConnectionId: counterpartyConnectionId,
 	}
 }
 
@@ -60,14 +62,15 @@ var _ sdk.Msg = &MsgSend{}
 
 // NewMsgSend creates a new MsgSend instance
 func NewMsgSend(
-	interchainAccountAddr string, owner sdk.AccAddress, toAddress string, amount sdk.Coins, connectionId string,
+	interchainAccountAddr string, owner sdk.AccAddress, toAddress string, amount sdk.Coins, connectionId string, counterpartyConnectionId string,
 ) *MsgSend {
 	return &MsgSend{
-		InterchainAccount: interchainAccountAddr,
-		Owner:             owner,
-		ToAddress:         toAddress,
-		Amount:            amount,
-		ConnectionId:      connectionId,
+		InterchainAccount:        interchainAccountAddr,
+		Owner:                    owner,
+		ToAddress:                toAddress,
+		Amount:                   amount,
+		ConnectionId:             connectionId,
+		CounterpartyConnectionId: counterpartyConnectionId,
 	}
 }
 

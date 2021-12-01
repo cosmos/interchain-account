@@ -39,7 +39,7 @@ func GetTxCmd() *cobra.Command {
 
 func getRegisterAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "register --connection-id",
+		Use: "register --connection-id --counterparty-connection-id",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -47,10 +47,12 @@ func getRegisterAccountCmd() *cobra.Command {
 			}
 
 			connectionId := viper.GetString(FlagConnectionId)
+			counterpartyConnectionId := viper.GetString(FlagCounterpartyConnectionId)
 
 			msg := types.NewMsgRegisterAccount(
 				clientCtx.GetFromAddress().String(),
 				connectionId,
+				counterpartyConnectionId,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -63,6 +65,7 @@ func getRegisterAccountCmd() *cobra.Command {
 
 	cmd.Flags().AddFlagSet(fsConnectionId)
 	_ = cmd.MarkFlagRequired(FlagConnectionId)
+	_ = cmd.MarkFlagRequired(FlagCounterpartyConnectionId)
 
 	flags.AddTxFlagsToCmd(cmd)
 
@@ -71,7 +74,7 @@ func getRegisterAccountCmd() *cobra.Command {
 
 func getSendTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "send [interchain_account_address] [to_address] [amount] --connection-id",
+		Use:  "send [interchain_account_address] [to_address] [amount] --connection-id --counterparty-connection-id",
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -92,6 +95,7 @@ func getSendTxCmd() *cobra.Command {
 			}
 
 			connectionId := viper.GetString(FlagConnectionId)
+			counterpartyConnectionId := viper.GetString(FlagCounterpartyConnectionId)
 
 			msg := types.NewMsgSend(
 				interchainAccountAddr,
@@ -99,6 +103,7 @@ func getSendTxCmd() *cobra.Command {
 				toAddress,
 				amount,
 				connectionId,
+				counterpartyConnectionId,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -112,6 +117,7 @@ func getSendTxCmd() *cobra.Command {
 	cmd.Flags().AddFlagSet(fsConnectionId)
 
 	_ = cmd.MarkFlagRequired(FlagConnectionId)
+	_ = cmd.MarkFlagRequired(FlagCounterpartyConnectionId)
 
 	flags.AddTxFlagsToCmd(cmd)
 	return cmd
