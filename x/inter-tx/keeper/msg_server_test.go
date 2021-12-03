@@ -65,7 +65,7 @@ func (suite *KeeperTestSuite) TestRegisterInterchainAccount() {
 			msgSrv := keeper.NewMsgServerImpl(suite.GetICAApp(suite.chainA).InterTxKeeper)
 			msg := types.NewMsgRegisterAccount(owner, path.EndpointA.ConnectionID, path.EndpointB.ConnectionID)
 
-			res, err := msgSrv.Register(sdk.WrapSDKContext(suite.chainA.GetContext()), msg)
+			res, err := msgSrv.RegisterAccount(sdk.WrapSDKContext(suite.chainA.GetContext()), msg)
 
 			if tc.expPass {
 				suite.Require().NoError(err)

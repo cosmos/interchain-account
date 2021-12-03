@@ -107,8 +107,8 @@ func (m *MsgRegisterAccountResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgRegisterAccountResponse proto.InternalMessageInfo
 
-// MsgSend builds and then sends a banktypes.MsgSend to the interchain account associated with the given owner on a particular connection pair
-// the interchain account on the host chain will execute the banktypes.MsgSend
+// MsgSend builds and then sends a banktypes.MsgSend to the interchain account associated with the given owner on a
+// particular connection pair the interchain account on the host chain will execute the banktypes.MsgSend
 type MsgSend struct {
 	InterchainAccount        string                                   `protobuf:"bytes,1,opt,name=interchain_account,json=interchainAccount,proto3" json:"interchain_account,omitempty" yaml:"interchain_account"`
 	Owner                    []byte                                   `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`

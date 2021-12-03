@@ -17,7 +17,7 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 
 var _ types.MsgServer = msgServer{}
 
-func (k msgServer) Register(
+func (k msgServer) RegisterAccount(
 	goCtx context.Context,
 	msg *types.MsgRegisterAccount,
 ) (*types.MsgRegisterAccountResponse, error) {

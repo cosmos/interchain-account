@@ -7,41 +7,39 @@ import "cosmos/base/v1beta1/coin.proto";
 
 // Msg defines the ica-authentication Msg service.
 service Msg {
-  // Register defines a rpc handler for MsgRegisterAccount 
+  // Register defines a rpc handler for MsgRegisterAccount
   rpc RegisterAccount(MsgRegisterAccount) returns (MsgRegisterAccountResponse);
-  // Send defines a rpc handler for MsgSend 
+  // Send defines a rpc handler for MsgSend
   rpc Send(MsgSend) returns (MsgSendResponse);
 }
 
-
-// MsgRegisterAccount registers an interchain account for the given owner over the specified connection pair 
+// MsgRegisterAccount registers an interchain account for the given owner over the specified connection pair
 message MsgRegisterAccount {
   option (gogoproto.equal)           = false;
   option (gogoproto.goproto_getters) = false;
 
-  string owner = 1;
-  string connection_id = 2 [(gogoproto.moretags) = "yaml:\"connection_id\""];
+  string owner                      = 1;
+  string connection_id              = 2 [(gogoproto.moretags) = "yaml:\"connection_id\""];
   string counterparty_connection_id = 3 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
 }
 
-// MsgRegisterAccountResponse is the response type for Msg/RegisterAccount 
+// MsgRegisterAccountResponse is the response type for Msg/RegisterAccount
 message MsgRegisterAccountResponse {}
 
-// MsgSend builds and then sends a banktypes.MsgSend to the interchain account associated with the given owner on a particular connection pair
-// the interchain account on the host chain will execute the banktypes.MsgSend
+// MsgSend builds and then sends a banktypes.MsgSend to the interchain account associated with the given owner on the
+// given connection pair. The interchain account on the host chain will execute the banktypes.MsgSend
 message MsgSend {
   option (gogoproto.equal)           = false;
   option (gogoproto.goproto_getters) = false;
 
   string   interchain_account              = 1 [(gogoproto.moretags) = "yaml:\"interchain_account\""];
-  bytes    owner                    = 2;
+  bytes    owner                           = 2;
   string   to_address                      = 3 [(gogoproto.moretags) = "yaml:\"interchain_account\""];
   repeated cosmos.base.v1beta1.Coin amount = 4
       [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
-  string  connection_id = 5 [(gogoproto.moretags) = "yaml:\"connection_id\""];
-  string  counterparty_connection_id = 6 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
+  string connection_id              = 5 [(gogoproto.moretags) = "yaml:\"connection_id\""];
+  string counterparty_connection_id = 6 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
 }
 
 // MsgSendResponse defines the Msg/Send response type.
 message MsgSendResponse {}
-

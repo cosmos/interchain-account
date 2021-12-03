@@ -16,17 +16,17 @@ import (
 func (k Keeper) InterchainAccountFromAddress(ctx context.Context, req *types.QueryInterchainAccountFromAddressRequest) (*types.QueryInterchainAccountFromAddressResponse, error) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
-	portId, err := icatypes.GeneratePortID(req.Address.String(), req.ConnectionId, req.CounterpartyConnectionId)
+	portID, err := icatypes.GeneratePortID(req.Owner, req.ConnectionId, req.CounterpartyConnectionId)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "could not find account: %s", err)
 	}
 
-	addr, exists := k.icaControllerKeeper.GetInterchainAccountAddress(sdkCtx, portId)
-	if exists == false {
-		return nil, status.Errorf(codes.NotFound, "no account found for portID %s", portId)
+	addr, found := k.icaControllerKeeper.GetInterchainAccountAddress(sdkCtx, portID)
+	if found == false {
+		return nil, status.Errorf(codes.NotFound, "no account found for portID %s", portID)
 	}
 
-	ibcAccount := types.QueryIBCAccountFromAddressResponse{Address: addr}
+	interchainAcc := types.QueryInterchainAccountFromAddressResponse{InterchainAccountAddress: addr}
 
-	return &ibcAccount, nil
+	return &interchainAcc, nil
 }
