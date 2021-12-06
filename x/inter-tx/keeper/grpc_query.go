@@ -22,7 +22,7 @@ func (k Keeper) InterchainAccountFromAddress(ctx context.Context, req *types.Que
 	}
 
 	addr, found := k.icaControllerKeeper.GetInterchainAccountAddress(sdkCtx, portID)
-	if found == false {
+	if !found {
 		return nil, status.Errorf(codes.NotFound, "no account found for portID %s", portID)
 	}
 
