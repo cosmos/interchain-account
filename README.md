@@ -36,14 +36,14 @@ export VAL_1=cosmos1mjk79fjjgpplak5wq838w0yd982gzkyfrk07am
 export VAL_2=cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs
 
 # Register an IBC Account on chain test-2 
-icad tx intertx register --from val1 --connection-id connection-0 --chain-id test-1 --gas 150000 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx register --from val1 --connection-id connection-0 --counterparty-connection-id connection-0 --chain-id test-1 --gas 150000 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Start the hermes relayer in the first terminal
 # This will also finish the channel creation handshake signalled during the register step
 make start-rly
 
-# Get the address of interchain account
-icad query interchainaccounts address cosmos1mjk79fjjgpplak5wq838w0yd982gzkyfrk07am connection-0 --home ./data/test-2 --node tcp://localhost:26657
+# Query the address of the interchain account
+icad query intertx interchainaccounts cosmos1mjk79fjjgpplak5wq838w0yd982gzkyfrk07am connection-0 connection-0 --home ./data/test-1 --node tcp://localhost:16657
 # Output -> account_address: cosmos1plyxrjdepap2zgqmfpzfchmklwqhchq5jrctm0
 
 export IBC_ACCOUNT=cosmos1plyxrjdepap2zgqmfpzfchmklwqhchq5jrctm0
