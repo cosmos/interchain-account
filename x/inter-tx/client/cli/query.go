@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"context"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/interchain-accounts/x/inter-tx/types"
@@ -41,7 +39,7 @@ func getIBCAccountCmd() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			res, err := queryClient.InterchainAccountFromAddress(
-				context.Background(),
+				cmd.Context(),
 				&types.QueryInterchainAccountFromAddressRequest{Owner: owner, ConnectionId: connectionId, CounterpartyConnectionId: counterpartyConnectionId},
 			)
 			if err != nil {
