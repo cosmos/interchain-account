@@ -1,5 +1,4 @@
 # Interchain Accounts
-![](./assets/remote-login.png | width=250)
 
 ### Warning 
 > Beware of dragons!</br></br>
