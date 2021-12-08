@@ -33,7 +33,7 @@ message MsgSend {
   option (gogoproto.goproto_getters) = false;
 
   string   interchain_account              = 1 [(gogoproto.moretags) = "yaml:\"interchain_account\""];
-  bytes    owner                           = 2;
+  bytes    owner                           = 2 [(gogoproto.casttype) = "github.com/cosmos/cosmos-sdk/types.AccAddress"];
   string   to_address                      = 3 [(gogoproto.moretags) = "yaml:\"interchain_account\""];
   repeated cosmos.base.v1beta1.Coin amount = 4
       [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];

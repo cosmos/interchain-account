@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# Load shell variables
 . ./network/hermes/variables.sh
 
 ### Configure the clients and connection
