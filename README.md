@@ -1,9 +1,15 @@
 # Interchain Accounts
+![](./assets/remote-login.png | width=250)
+
 ### Warning 
 > Beware of dragons!</br></br>
-> The interchain accounts module is currently under development and has been moved to the `ibc-go` repo [here](https://github.com/cosmos/ibc-go/pull/380). Interchain Accounts is aiming to release in January 2022.</br></br>
+> The interchain accounts module is currently under development and has been moved to the `ibc-go` repo [here](https://github.com/cosmos/ibc-go/tree/main/modules/apps/27-interchain-accounts). Interchain Accounts is aiming to release in January 2022.</br></br>
 > This repo aims to demonstrate demo modules that utilize interchain accounts and serve as a developer guide for teams aiming to use interchain accounts functionality.</br></br>
-> The existing demo outlined below is outdated and will be updated to coincide with the interchain accounts relase.</br>
+> The existing demo outlined below will be updated to coincide with the interchain accounts release.</br>
+
+### Developer Documentation
+
+> Coming soon! 
 
 ## Local Demo
 
