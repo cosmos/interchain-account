@@ -28,8 +28,7 @@ make install
 # In the variables.sh file inside /network/hermes/ replace the $HERMES_BINARY variable with a path to the hermes binary generated from the build step below. 
 # You can find this in the /target/debug/ directory inside ibc-rs. 
 
-git clone https://github.com/informalsystems/ibc-rs
-git checkout adi/ibcgo_v2
+git clone https://github.com/seantking/hermes-temp-ica
 cd relayer-cli
 cargo build
 
