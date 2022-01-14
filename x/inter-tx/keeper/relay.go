@@ -49,7 +49,8 @@ func (keeper Keeper) TrySendCoins(
 		Data: data,
 	}
 
-	_, err = keeper.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, 0)
+	timeoutTimestamp := ^uint64(0) >> 1
+	_, err = keeper.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, timeoutTimestamp)
 
 	return err
 }

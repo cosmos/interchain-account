@@ -85,7 +85,8 @@ func (k msgServer) Delegate(goCtx context.Context, msg *types.MsgDelegate) (*typ
 		Data: data,
 	}
 
-	_, err = k.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, 0)
+	timeoutTimestamp := ^uint64(0) >> 1
+	_, err = k.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, timeoutTimestamp)
 	if err != nil {
 		return nil, err
 	}
