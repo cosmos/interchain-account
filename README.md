@@ -23,15 +23,10 @@ make install
 # Hermes Relayer
 # [Hermes](https://hermes.informal.systems/) is a Rust implementation of a relayer for the [Inter-Blockchain Communication (IBC)](https://ibcprotocol.org/) protocol.
 #
-# In order to use the hermes relayer you will need to check out a specific branch that can be used with interchain-accounts. 
+# Currently supported by Hermes v0.9.0
 # 
-# In the variables.sh file inside /network/hermes/ replace the $HERMES_BINARY variable with a path to the hermes binary generated from the build step below. 
-# You can find this in the /target/debug/ directory inside ibc-rs. 
-
-git clone https://github.com/seantking/hermes-temp-ica
-cd relayer-cli
-cargo build
-
+# Alternatively set a custom binary path using $HERMES_BINARY in /network/hermes/variables.sh
+cargo install --version 0.9.0 ibc-relayer-cli --bin hermes --locked
 
 # Bootstrap two local chains & create a connection using the hermes relayer
 make init
@@ -49,17 +44,17 @@ export DEMOWALLET_1=$(icad keys show demowallet1 -a --keyring-backend test --hom
 export DEMOWALLET_2=$(icad keys show demowallet2 -a --keyring-backend test --home ./data/test-2) && echo $DEMOWALLET_2;
 
 # Register an interchain account on behalf of DEMOWALLET_1 where chain test-2 is the interchain accounts host
-icad tx intertx register --from $DEMOWALLET_1 --connection-id connection-0 --counterparty-connection-id connection-0 --chain-id test-1 --gas 150000 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx register --from $DEMOWALLET_1 --connection-id connection-0 --chain-id test-1 --gas 150000 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Start the hermes relayer in the first terminal
 # This will also finish the channel creation handshake signalled during the register step
 make start-rly
 
 # Query the address of the interchain account
-icad query intertx interchainaccounts $DEMOWALLET_1 connection-0 connection-0 --home ./data/test-1 --node tcp://localhost:16657
+icad query intertx interchainaccounts $DEMOWALLET_1 --home ./data/test-1 --node tcp://localhost:16657
 
 # Store the interchain account address by parsing the query result
-export ICA_ADDR=$(icad query intertx interchainaccounts $DEMOWALLET_1 connection-0 connection-0 --home ./data/test-1 --node tcp://localhost:16657 -o json | jq -r '.interchain_account_address') && echo $ICA_ADDR
+export ICA_ADDR=$(icad query intertx interchainaccounts $DEMOWALLET_1 --home ./data/test-1 --node tcp://localhost:16657 -o json | jq -r '.interchain_account_address') && echo $ICA_ADDR
 
 # Check the interchain account's balance on test-2 chain. It should be empty.
 icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
@@ -71,7 +66,7 @@ icad tx bank send $DEMOWALLET_2 $ICA_ADDR 10000stake --chain-id test-2 --home ./
 icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
 
 # Test sending assets from interchain account via ibc.
-icad tx intertx send $ICA_ADDR $DEMOWALLET_2 5000stake --connection-id connection-0 --counterparty-connection-id connection-0 --chain-id test-1 --gas 90000 --home ./data/test-1 --node tcp://localhost:16657 --from $DEMOWALLET_1 --keyring-backend test -y
+icad tx intertx send $ICA_ADDR $DEMOWALLET_2 5000stake --chain-id test-1 --gas 90000 --home ./data/test-1 --node tcp://localhost:16657 --from $DEMOWALLET_1 --keyring-backend test -y
 
 # Wait until the relayer has relayed the packet
 
@@ -82,7 +77,7 @@ icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
 export VAL_ADDR=$(cat ./data/test-2/config/genesis.json | jq -r '.app_state.genutil.gen_txs[0].body.messages[0].validator_address') && echo $VAL_ADDR
 
 # Perform a staking delegation using the interchain account with the remaining the funds via ibc
-icad tx intertx delegate $ICA_ADDR $VAL_ADDR 5000stake --connection-id connection-0 --counterparty-connection-id connection-0 --from $DEMOWALLET_1 --chain-id test-1 --home ./data test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx delegate $ICA_ADDR $VAL_ADDR 5000stake --from $DEMOWALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Inspect the staking delegations
 icad q staking delegations-to $VAL_ADDR --home ./data/test-2 --node tcp://localhost:26657
