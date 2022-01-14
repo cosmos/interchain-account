@@ -17,10 +17,8 @@ func (keeper Keeper) TrySendCoins(
 	fromAddr,
 	toAddr string,
 	amt sdk.Coins,
-	connectionID string,
-	counterpartyConnectionID string,
 ) error {
-	portID, err := icatypes.GeneratePortID(owner.String(), connectionID, counterpartyConnectionID)
+	portID, err := icatypes.NewControllerPortID(owner.String())
 	if err != nil {
 		return err
 	}
@@ -51,7 +49,7 @@ func (keeper Keeper) TrySendCoins(
 		Data: data,
 	}
 
-	_, err = keeper.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData)
+	_, err = keeper.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, 0)
 
 	return err
 }

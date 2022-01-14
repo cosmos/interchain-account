@@ -14,14 +14,12 @@ var (
 )
 
 // NewMsgDelegate creates a new MsgDelegate instance
-func NewMsgDelegate(owner sdk.AccAddress, amt sdk.Coin, interchainAccAddr, validatorAddr, connectionID, counterpartyConnectionID string) *MsgDelegate {
+func NewMsgDelegate(owner sdk.AccAddress, amt sdk.Coin, interchainAccAddr, validatorAddr string) *MsgDelegate {
 	return &MsgDelegate{
-		InterchainAccount:        interchainAccAddr,
-		Owner:                    owner,
-		ValidatorAddress:         validatorAddr,
-		Amount:                   amt,
-		ConnectionId:             connectionID,
-		CounterpartyConnectionId: counterpartyConnectionID,
+		InterchainAccount: interchainAccAddr,
+		Owner:             owner,
+		ValidatorAddress:  validatorAddr,
+		Amount:            amt,
 	}
 }
 
@@ -53,11 +51,10 @@ func (msg MsgDelegate) ValidateBasic() error {
 }
 
 // NewMsgRegisterAccount creates a new MsgRegisterAccount instance
-func NewMsgRegisterAccount(owner, connectionID, counterpartyConnectionID string) *MsgRegisterAccount {
+func NewMsgRegisterAccount(owner, connectionID string) *MsgRegisterAccount {
 	return &MsgRegisterAccount{
-		Owner:                    owner,
-		ConnectionId:             connectionID,
-		CounterpartyConnectionId: counterpartyConnectionID,
+		Owner:        owner,
+		ConnectionId: connectionID,
 	}
 }
 
@@ -81,14 +78,12 @@ func (msg MsgRegisterAccount) GetSigners() []sdk.AccAddress {
 }
 
 // NewMsgSend creates a new MsgSend instance
-func NewMsgSend(owner sdk.AccAddress, amt sdk.Coins, interchainAccAddr, toAddr, connectionID, counterpartyConnectionID string) *MsgSend {
+func NewMsgSend(owner sdk.AccAddress, amt sdk.Coins, interchainAccAddr, toAddr string) *MsgSend {
 	return &MsgSend{
-		InterchainAccount:        interchainAccAddr,
-		Owner:                    owner,
-		ToAddress:                toAddr,
-		Amount:                   amt,
-		ConnectionId:             connectionID,
-		CounterpartyConnectionId: counterpartyConnectionID,
+		InterchainAccount: interchainAccAddr,
+		Owner:             owner,
+		ToAddress:         toAddr,
+		Amount:            amt,
 	}
 }
 

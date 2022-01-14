@@ -44,7 +44,6 @@ func getRegisterAccountCmd() *cobra.Command {
 			msg := types.NewMsgRegisterAccount(
 				clientCtx.GetFromAddress().String(),
 				viper.GetString(FlagConnectionID),
-				viper.GetString(FlagCounterpartyConnectionID),
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -55,9 +54,8 @@ func getRegisterAccountCmd() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().AddFlagSet(fsConnectionPair)
+	cmd.Flags().AddFlagSet(fsConnectionID)
 	_ = cmd.MarkFlagRequired(FlagConnectionID)
-	_ = cmd.MarkFlagRequired(FlagCounterpartyConnectionID)
 
 	flags.AddTxFlagsToCmd(cmd)
 
@@ -84,8 +82,6 @@ func getSendTxCmd() *cobra.Command {
 				amount,
 				args[0],
 				args[1],
-				viper.GetString(FlagConnectionID),
-				viper.GetString(FlagCounterpartyConnectionID),
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -95,11 +91,6 @@ func getSendTxCmd() *cobra.Command {
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
-
-	cmd.Flags().AddFlagSet(fsConnectionPair)
-
-	_ = cmd.MarkFlagRequired(FlagConnectionID)
-	_ = cmd.MarkFlagRequired(FlagCounterpartyConnectionID)
 
 	flags.AddTxFlagsToCmd(cmd)
 
@@ -126,8 +117,6 @@ func getDelegateTxCmd() *cobra.Command {
 				amount,
 				args[0],
 				args[1],
-				viper.GetString(FlagConnectionID),
-				viper.GetString(FlagCounterpartyConnectionID),
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -137,11 +126,6 @@ func getDelegateTxCmd() *cobra.Command {
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
-
-	cmd.Flags().AddFlagSet(fsConnectionPair)
-
-	_ = cmd.MarkFlagRequired(FlagConnectionID)
-	_ = cmd.MarkFlagRequired(FlagCounterpartyConnectionID)
 
 	flags.AddTxFlagsToCmd(cmd)
 

@@ -40,7 +40,7 @@ func (suite *KeeperTestSuite) TestRegisterInterchainAccount() {
 		{
 			"MsgChanOpenInit fails - channel is already active",
 			func() {
-				portID, err := icatypes.GeneratePortID(owner, path.EndpointA.ConnectionID, path.EndpointB.ConnectionID)
+				portID, err := icatypes.NewControllerPortID(owner)
 				suite.Require().NoError(err)
 
 				suite.GetICAApp(suite.chainA).ICAControllerKeeper.SetActiveChannelID(suite.chainA.GetContext(), portID, path.EndpointA.ChannelID)
@@ -63,7 +63,7 @@ func (suite *KeeperTestSuite) TestRegisterInterchainAccount() {
 			tc.malleate() // malleate mutates test data
 
 			msgSrv := keeper.NewMsgServerImpl(suite.GetICAApp(suite.chainA).InterTxKeeper)
-			msg := types.NewMsgRegisterAccount(owner, path.EndpointA.ConnectionID, path.EndpointB.ConnectionID)
+			msg := types.NewMsgRegisterAccount(owner, path.EndpointA.ConnectionID)
 
 			res, err := msgSrv.RegisterAccount(sdk.WrapSDKContext(suite.chainA.GetContext()), msg)
 

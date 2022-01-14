@@ -24,7 +24,6 @@ message MsgRegisterAccount {
 
   string owner                      = 1;
   string connection_id              = 2 [(gogoproto.moretags) = "yaml:\"connection_id\""];
-  string counterparty_connection_id = 3 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
 }
 
 // MsgRegisterAccountResponse is the response type for Msg/RegisterAccount
@@ -41,8 +40,6 @@ message MsgSend {
   string   to_address                      = 3 [(gogoproto.moretags) = "yaml:\"interchain_account\""];
   repeated cosmos.base.v1beta1.Coin amount = 4
       [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
-  string connection_id              = 5 [(gogoproto.moretags) = "yaml:\"connection_id\""];
-  string counterparty_connection_id = 6 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
 }
 
 // MsgSendResponse defines the Msg/Send response type.
@@ -58,8 +55,6 @@ message MsgDelegate {
   bytes    owner                    = 2 [(gogoproto.casttype) = "github.com/cosmos/cosmos-sdk/types.AccAddress"];
   string   validator_address        = 3 [(gogoproto.moretags) = "yaml:\"validator_address\""];
   cosmos.base.v1beta1.Coin amount   = 4 [(gogoproto.nullable) = false];
-  string connection_id              = 5 [(gogoproto.moretags) = "yaml:\"connection_id\""];
-  string counterparty_connection_id = 6 [(gogoproto.moretags) = "yaml:\"counterparty_connection_id\""];
 }
 
 // MsgDelegateResponse defines the Msg/Delegate response type
