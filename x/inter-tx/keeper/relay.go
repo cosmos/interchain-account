@@ -49,6 +49,8 @@ func (keeper Keeper) TrySendCoins(
 		Data: data,
 	}
 
+	// timeoutTimestamp set to max value with the unsigned bit shifted to sastisfy hermes timestamp conversion
+	// it is the responsibility of the auth module developer to ensure an appropriate timeout timestamp
 	timeoutTimestamp := ^uint64(0) >> 1
 	_, err = keeper.icaControllerKeeper.TrySendTx(ctx, chanCap, portID, packetData, timeoutTimestamp)
 
