@@ -27,7 +27,7 @@ make install
 
 2. Download and install an IBC relayer.
 ```
-cargo install --version 0.12.0 ibc-relayer-cli --bin hermes --locked
+cargo install --version 0.13.0-rc.0 ibc-relayer-cli --bin hermes --locked
 ```
 
 3. Bootstrap two chains and create an IBC connection
@@ -138,6 +138,47 @@ icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $D
 
 # Query the interchain account balance on the host chain
 icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
+```
+
+#### Testing timeout scenario
+
+1. Stop the Hermes relayer process and send an interchain accounts transaction using one of the examples provided above.
+
+2. Wait for approx. 1 minute for the timeout to elapse.
+
+3. Restart the relayer process
+
+```bash
+make start-rly
+```
+
+4. Observe the packet timeout and relayer reacting appropriately (issuing a MsgTimeout to testchain `test-1`).
+
+5. Due to the nature of ordered channels, the timeout will subsequently update the state of the channel to `STATE_CLOSED`.
+Observe both channel ends by querying the IBC channels for each node.
+
+```bash
+# inspect channel ends on test chain 1
+icad q ibc channel channels --home ./data/test-1 --node tcp://localhost:16657
+
+# inspect channel ends on test chain 2
+icad q ibc channel channels --home ./data/test-2 --node tcp://localhost:26657
+```
+
+6. Open a new channel for the existing interchain account on the same connection.
+
+```bash
+icad tx intertx register --from $DEMOWALLET_1 --connection-id connection-0 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+```
+
+7. Inspect the IBC channels once again and observe a new creately interchain accounts channel with `STATE_OPEN`.
+
+```bash
+# inspect channel ends on test chain 1
+icad q ibc channel channels --home ./data/test-1 --node tcp://localhost:16657
+
+# inspect channel ends on test chain 2
+icad q ibc channel channels --home ./data/test-2 --node tcp://localhost:26657
 ```
 
 ## Collaboration
