@@ -2,7 +2,6 @@ FROM golang:1.17 as builder
 
 ENV GOPATH=""
 ENV GOMODULE="on"
-ENV GOBIN=/usr/build/
 
 COPY go.mod .
 COPY go.sum .
