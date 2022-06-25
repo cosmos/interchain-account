@@ -1,6 +1,8 @@
 vue/node_modules
 vue/dist
 secret.yml
+build
+.idea
 
 # data for local chains
 data

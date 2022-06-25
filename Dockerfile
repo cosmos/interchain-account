@@ -1,14 +1,23 @@
-# Compile
-FROM golang:alpine AS builder
-WORKDIR /src/app/
-COPY go.mod go.sum* ./
+FROM golang:1.17 as builder
+
+ENV GOPATH=""
+ENV GOMODULE="on"
+ENV GOBIN=/usr/build/
+
+COPY go.mod .
+COPY go.sum .
+
 RUN go mod download
-COPY . .
-RUN for bin in cmd/*; do CGO_ENABLED=0 go build -o=/usr/local/bin/$(basename $bin) ./cmd/$(basename $bin); done
 
+ADD app app
+ADD cmd cmd
+ADD x x
 
-# Add to a distroless container
-FROM gcr.io/distroless/base
-COPY --from=builder /usr/local/bin /usr/local/bin
-USER nonroot:nonroot
-CMD ["icad start"]
+COPY Makefile .
+RUN make build
+
+FROM ubuntu:20.04
+
+COPY --from=builder /go/build/icad /bin/icad
+
+ENTRYPOINT ["icad"]
