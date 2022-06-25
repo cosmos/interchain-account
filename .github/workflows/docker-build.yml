@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: ibc-go-icad
 
 jobs:
-  goreleaser:
+  build-and-push-docker-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
