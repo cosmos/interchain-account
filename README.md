@@ -30,7 +30,7 @@ make install
 2. Download and install an IBC relayer. ([hermes](https://hermes.informal.systems/), [go relayer](https://github.com/cosmos/relayer) or both )
 ```bash
 # hermes
-cargo install --version 0.13.0-rc.0 ibc-relayer-cli --bin hermes --locked
+cargo install --version 0.15.0 ibc-relayer-cli --bin hermes --locked
 
 #go relayer (make sure to use v2.0.0-rc4 or later!)
 git clone https://github.com/cosmos/relayer.git
@@ -76,8 +76,10 @@ make start-golang-rly
 
 ```bash
 # Store the following account addresses within the current shell env
-export DEMOWALLET_1=$(icad keys show demowallet1 -a --keyring-backend test --home ./data/test-1) && echo $DEMOWALLET_1;
-export DEMOWALLET_2=$(icad keys show demowallet2 -a --keyring-backend test --home ./data/test-2) && echo $DEMOWALLET_2;
+export WALLET_1=$(icad keys show wallet1 -a --keyring-backend test --home ./data/test-1) && echo $WALLET_1;
+export WALLET_2=$(icad keys show wallet2 -a --keyring-backend test --home ./data/test-1) && echo $WALLET_2;
+export WALLET_3=$(icad keys show wallet3 -a --keyring-backend test --home ./data/test-2) && echo $WALLET_3;
+export WALLET_4=$(icad keys show wallet4 -a --keyring-backend test --home ./data/test-2) && echo $WALLET_4;
 ```
 
 ### Registering an Interchain Account via IBC
@@ -86,14 +88,14 @@ Register an Interchain Account using the `intertx register` cmd.
 Here the message signer is used as the account owner.
 
 ```bash
-# Register an interchain account on behalf of DEMOWALLET_1 where chain test-2 is the interchain accounts host
-icad tx intertx register --from $DEMOWALLET_1 --connection-id connection-0 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+# Register an interchain account on behalf of WALLET_1 where chain test-2 is the interchain accounts host
+icad tx intertx register --from $WALLET_1 --connection-id connection-0 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Query the address of the interchain account
-icad query intertx interchainaccounts connection-0 $DEMOWALLET_1 --home ./data/test-1 --node tcp://localhost:16657
+icad query intertx interchainaccounts connection-0 $WALLET_1 --home ./data/test-1 --node tcp://localhost:16657
 
 # Store the interchain account address by parsing the query result: cosmos1hd0f4u7zgptymmrn55h3hy20jv2u0ctdpq23cpe8m9pas8kzd87smtf8al
-export ICA_ADDR=$(icad query intertx interchainaccounts connection-0 $DEMOWALLET_1 --home ./data/test-1 --node tcp://localhost:16657 -o json | jq -r '.interchain_account_address') && echo $ICA_ADDR
+export ICA_ADDR=$(icad query intertx interchainaccounts connection-0 $WALLET_1 --home ./data/test-1 --node tcp://localhost:16657 -o json | jq -r '.interchain_account_address') && echo $ICA_ADDR
 ```
 
 > This is the situation after registering the ICA. A channel has been created and an ICA has been registered on the host.
@@ -109,7 +111,7 @@ Note this is executed on the host chain to provide the account with an initial b
 icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
 
 # Send funds to the interchain account.
-icad tx bank send $DEMOWALLET_2 $ICA_ADDR 10000stake --chain-id test-2 --home ./data/test-2 --node tcp://localhost:26657 --keyring-backend test -y
+icad tx bank send $WALLET_3 $ICA_ADDR 10000stake --chain-id test-2 --home ./data/test-2 --node tcp://localhost:26657 --keyring-backend test -y
 
 # Query the balance once again and observe the changes
 icad q bank balances $ICA_ADDR --chain-id test-2 --node tcp://localhost:26657
@@ -139,10 +141,10 @@ icad tx intertx submit \
         "denom": "stake",
         "amount": "1000"
     }
-}' --connection-id connection-0 --from $DEMOWALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+}' --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Alternatively provide a path to a JSON file
-icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $DEMOWALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Wait until the relayer has relayed the packet
 
@@ -168,10 +170,10 @@ icad tx intertx submit \
             "amount": "1000"
         }
     ]
-}' --connection-id connection-0 --from $DEMOWALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+}' --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Alternatively provide a path to a JSON file
-icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $DEMOWALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Wait until the relayer has relayed the packet
 
@@ -211,7 +213,7 @@ icad q ibc channel channels --home ./data/test-2 --node tcp://localhost:26657
 6. Open a new channel for the existing interchain account on the same connection.
 
 ```bash
-icad tx intertx register --from $DEMOWALLET_1 --connection-id connection-0 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+icad tx intertx register --from $WALLET_1 --connection-id connection-0 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 ```
 
 7. Inspect the IBC channels once again and observe a new creately interchain accounts channel with `STATE_OPEN`.
