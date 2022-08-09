@@ -1,0 +1,25 @@
+{
+  "group_policy_address": "cosmos1afk9zr2hn2jsac63h4hm60vl9z3e5u69gndzf7c99cqge3vzwjzsfwkgpd",
+  "messages": [
+    {
+      "@type": "/intertx.MsgSubmitTx",
+      "owner": "cosmos1afk9zr2hn2jsac63h4hm60vl9z3e5u69gndzf7c99cqge3vzwjzsfwkgpd",
+      "connectionId": "connection-0",
+      "msg": {
+        "@type": "/cosmos.bank.v1beta1.MsgSend",
+        "from_address": "cosmos1rzxvxy6kxay5u2dnwcck8xdsx6hnv5w46ah74k3v6jnh0437qr9qf3fq82",
+        "to_address": "cosmos18pug9mrsj70pkwvgw6vhw0v8s4ufk6frnv9kdz",
+        "amount": [
+          {
+            "denom": "stake",
+            "amount": "5"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": "",
+  "proposers": [
+    "cosmos1m9l358xunhhwds0568za49mzhvuxx9uxre5tud"
+  ]
+}
