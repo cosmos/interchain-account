@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/x/group"
 	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
 	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
@@ -27,7 +28,33 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 func (k msgServer) RegisterAccount(goCtx context.Context, msg *types.MsgRegisterAccount) (*types.MsgRegisterAccountResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	if err := k.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, msg.Owner, msg.Version); err != nil {
+	policy := group.NewThresholdDecisionPolicy(
+		"1",
+		time.Duration(50000000000),
+		0,
+	)
+
+	msgCreateGroupWithPolicy := &group.MsgCreateGroupWithPolicy{
+		Admin: msg.Owner,
+		Members: []group.MemberRequest{
+			{
+				Address: msg.Owner,
+				Weight:  "3",
+			},
+		},
+		GroupMetadata: "",
+	}
+
+	msgCreateGroupWithPolicy.SetDecisionPolicy(policy)
+
+	response, err := k.groupKeeper.CreateGroupWithPolicy(goCtx, msgCreateGroupWithPolicy)
+	if err != nil {
+		panic(err)
+	}
+
+	policyAddress := response.GroupPolicyAddress
+
+	if err := k.icaControllerKeeper.RegisterInterchainAccount(ctx, msg.ConnectionId, policyAddress, msg.Version); err != nil {
 		return nil, err
 	}
 

@@ -22,15 +22,17 @@ type Keeper struct {
 
 	scopedKeeper        capabilitykeeper.ScopedKeeper
 	icaControllerKeeper icacontrollerkeeper.Keeper
+	groupKeeper         types.GroupKeeper
 }
 
-func NewKeeper(cdc codec.Codec, storeKey storetypes.StoreKey, iaKeeper icacontrollerkeeper.Keeper, scopedKeeper capabilitykeeper.ScopedKeeper) Keeper {
+func NewKeeper(cdc codec.Codec, storeKey storetypes.StoreKey, iaKeeper icacontrollerkeeper.Keeper, scopedKeeper capabilitykeeper.ScopedKeeper, groupKeeper types.GroupKeeper) Keeper {
 	return Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
 
 		scopedKeeper:        scopedKeeper,
 		icaControllerKeeper: iaKeeper,
+		groupKeeper:         groupKeeper,
 	}
 }
 
