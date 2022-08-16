@@ -27,8 +27,10 @@ jobs:
               registry: ${{ env.REGISTRY }}
               username: ${{ github.actor }}
               password: ${{ secrets.GITHUB_TOKEN }}
-         - name: Fetch latest Dockerfile
-           run: curl https://raw.githubusercontent.com/cosmos/interchain-accounts-demo/master/Dockerfile -o Dockerfile
+         - name: Fetch files for docker build
+           run: |
+            curl https://raw.githubusercontent.com/cosmos/interchain-accounts-demo/master/Dockerfile -o Dockerfile
+            curl https://raw.githubusercontent.com/cosmos/interchain-accounts-demo/master/Makefile -o Makefile
          - name: Build image
            run: |
             docker build . -t "${REGISTRY}/${ORG}/${IMAGE_NAME}:${VERSION}"
