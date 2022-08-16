@@ -559,6 +559,22 @@ func (app *App) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.Res
 	if err := tmjson.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
 	}
+
+	icaRawGenesisState := genesisState[icatypes.ModuleName]
+
+	var icaGenesisState icatypes.GenesisState
+	if err := app.cdc.UnmarshalJSON(icaRawGenesisState, &icaGenesisState); err != nil {
+		panic(err)
+	}
+
+	icaGenesisState.HostGenesisState.Params.AllowMessages = []string{"*"} // allow all msgs
+	genesisJson, err := app.cdc.MarshalJSON(icaGenesisState)
+	if err != nil {
+		panic(err)
+	}
+
+	genesisState[icatypes.ModuleName] = genesisJson
+
 	return app.mm.InitGenesis(ctx, app.appCodec, genesisState)
 }
 
