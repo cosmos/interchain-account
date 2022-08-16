@@ -1,4 +1,4 @@
-name: Build Simd Image
+name: Build Icad Image
 on:
   workflow_dispatch:
     inputs:
