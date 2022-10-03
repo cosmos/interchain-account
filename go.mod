@@ -22,7 +22,7 @@ require (
 )
 
 require (
-	github.com/cosmos/ibc-go/v5 v5.0.0-rc2
+	github.com/cosmos/ibc-go/v5 v5.0.0
 	github.com/golang/protobuf v1.5.2
 	google.golang.org/genproto v0.0.0-20220725144611-272f38e5d71b
 )
