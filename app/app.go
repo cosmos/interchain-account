@@ -577,6 +577,8 @@ func (app *App) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.Res
 
 	genesisState[icatypes.ModuleName] = genesisJson
 
+	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.mm.GetVersionMap())
+
 	return app.mm.InitGenesis(ctx, app.appCodec, genesisState)
 }
 
