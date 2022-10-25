@@ -44,7 +44,7 @@ make install
 make init-hermes
 
 # go relayer
-make init-golang-relayer
+make init-golang-rly
 ```
 
 :warning: **NOTE:** When you want to use both relayers interchangeably, using both of these `make` commands will set up two seperate connections (which is not needed and can lead to confusion). In the case of using both relayers, perform:
@@ -133,15 +133,15 @@ cat ./data/test-2/config/genesis.json | jq -r '.app_state.genutil.gen_txs[0].bod
 
 # Submit a staking delegation tx using the interchain account via ibc
 icad tx intertx submit \
-'{
-    "@type":"/cosmos.staking.v1beta1.MsgDelegate",
-    "delegator_address":"cosmos15ccshhmp0gsx29qpqq6g4zmltnnvgmyu9ueuadh9y2nc5zj0szls5gtddz",
-    "validator_address":"cosmosvaloper1qnk2n4nlkpw9xfqntladh74w6ujtulwnmxnh3k",
-    "amount": {
-        "denom": "stake",
-        "amount": "1000"
+"{
+    \"@type\":\"/cosmos.staking.v1beta1.MsgDelegate\",
+    \"delegator_address\": \"$ICA_ADDR\",
+    \"validator_address\":\"cosmosvaloper1qnk2n4nlkpw9xfqntladh74w6ujtulwnmxnh3k\",
+    \"amount\": {
+        \"denom\": \"stake\",
+        \"amount\": \"1000\"
     }
-}' --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+}" --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Alternatively provide a path to a JSON file
 icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
@@ -160,17 +160,17 @@ icad q staking delegations-to cosmosvaloper1qnk2n4nlkpw9xfqntladh74w6ujtulwnmxnh
 ```bash
 # Submit a bank send tx using the interchain account via ibc
 icad tx intertx submit \
-'{
-    "@type":"/cosmos.bank.v1beta1.MsgSend",
-    "from_address":"cosmos15ccshhmp0gsx29qpqq6g4zmltnnvgmyu9ueuadh9y2nc5zj0szls5gtddz",
-    "to_address":"cosmos10h9stc5v6ntgeygf5xf945njqq5h32r53uquvw",
-    "amount": [
+"{
+    \"@type\":\"/cosmos.bank.v1beta1.MsgSend\",
+    \"from_address\": \"$ICA_ADDR\",
+    \"to_address\":\"cosmos10h9stc5v6ntgeygf5xf945njqq5h32r53uquvw\",
+    \"amount\": [
         {
-            "denom": "stake",
-            "amount": "1000"
+            \"denom\": \"stake\",
+            \"amount\": \"1000\"
         }
     ]
-}' --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
+}" --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
 
 # Alternatively provide a path to a JSON file
 icad tx intertx submit [path/to/msg.json] --connection-id connection-0 --from $WALLET_1 --chain-id test-1 --home ./data/test-1 --node tcp://localhost:16657 --keyring-backend test -y
