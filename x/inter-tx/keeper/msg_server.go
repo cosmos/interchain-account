@@ -6,6 +6,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	icatypes "github.com/cosmos/ibc-go/v6/modules/apps/27-interchain-accounts/types"
+	"github.com/gogo/protobuf/proto"
+
 	"github.com/cosmos/interchain-accounts/x/inter-tx/types"
 )
 
@@ -40,7 +42,7 @@ func (k msgServer) SubmitTx(goCtx context.Context, msg *types.MsgSubmitTx) (*typ
 		return nil, err
 	}
 
-	data, err := icatypes.SerializeCosmosTx(k.cdc, []sdk.Msg{msg.GetTxMsg()})
+	data, err := icatypes.SerializeCosmosTx(k.cdc, []proto.Message{msg.GetTxMsg()})
 	if err != nil {
 		return nil, err
 	}
