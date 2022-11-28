@@ -1,0 +1,49 @@
+name: Compatibility E2E
+
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  ORG: cosmos
+  IMAGE_NAME: ibc-go-icad
+
+jobs:
+  build-release-images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        release-branch:
+          # TODO: fill these out correctly.
+          - release/v2.5.x
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: '${{ matrix.release-branch }}'
+          fetch-depth: 0
+      - name: Log in to the Container registry
+        if: env.RELEASE_BRANCH == matrix.release-branch
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          registry: '${{ env.REGISTRY }}'
+          username: '${{ github.actor }}'
+          password: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Build image
+        run: |
+          docker_tag="$(echo ${{ matrix.release-branch }} | sed 's/\//-/')"
+          docker build . -t "${REGISTRY}/${ORG}/${IMAGE_NAME}:$docker_tag"
+          docker push "${REGISTRY}/${ORG}/${IMAGE_NAME}:$docker_tag"
+
+  icad-chain-a:
+    needs: build-release-images
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: icad
+      test-suite: icad-chain-a
+
+  icad-chain-b:
+    needs: build-release-images
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: icad
+      test-suite: icad-chain-b
