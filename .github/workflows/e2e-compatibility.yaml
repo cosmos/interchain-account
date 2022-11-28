@@ -14,8 +14,10 @@ jobs:
     strategy:
       matrix:
         release-branch:
-          # TODO: fill these out correctly.
-          - release/v2.5.x
+          - release/v3.3.x
+          - release/v4.2.x
+          - release/v5.1.x
+          - release/v6.0.x
     steps:
       - uses: actions/checkout@v3
         with:
