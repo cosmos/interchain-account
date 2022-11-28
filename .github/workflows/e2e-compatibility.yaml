@@ -14,10 +14,9 @@ jobs:
     strategy:
       matrix:
         release-branch:
-          - release/v3.3.x
-          - release/v4.2.x
-          - release/v5.1.x
-          - release/v6.0.x
+          - release/v0.1.x # ibc-go v3
+          - release/v0.2.x # ibc-go v4
+          - release/v0.3.x # ibc-go v5
     steps:
       - uses: actions/checkout@v3
         with:
