@@ -2,7 +2,6 @@ name: Compatibility E2E
 
 on:
   workflow_dispatch:
-  push:
 
 env:
   REGISTRY: ghcr.io
@@ -10,6 +9,7 @@ env:
   IMAGE_NAME: ibc-go-icad
 
 jobs:
+  # v0.1.x / ibc-go v3
   ica-chain-a-v0-1-x:
     uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
     with:
@@ -22,18 +22,7 @@ jobs:
       test-file-directory: v0.1.x
       test-suite: ica-chain-b
 
-  incentivized-ica-chain-a-v0-1-x:
-    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
-    with:
-      test-file-directory: v0.2.x
-      test-suite: incentivized-ica-chain-a
-
-  incentivized-ica-chain-b-v0-1-x:
-    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
-    with:
-      test-file-directory: v0.2.x
-      test-suite: incentivized-ica-chain-b
-
+  # v0.2.x / ibc-go v4
   ica-chain-a-v0-2-x:
     uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
     with:
@@ -58,6 +47,7 @@ jobs:
       test-file-directory: v0.2.x
       test-suite: incentivized-ica-chain-b
 
+  # v0.3.x / ibc-go v5
   ica-chain-a-v0-3-x:
     uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
     with:
@@ -82,6 +72,7 @@ jobs:
       test-file-directory: v0.3.x
       test-suite: incentivized-ica-chain-b
 
+  # v0.4.x / ibc-go v6
   ica-chain-a-v0-4-x:
     uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@cian/specify-ibc-go-repo-explicitly-for-e2e-compatibility-tests
     with:
