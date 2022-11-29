@@ -1,0 +1,11 @@
+{
+  "chain-a": ["v0.1.7"],
+  "chain-b": ["v0.1.7", "v0.4.1", "v0.3.5", "v0.2.5"],
+  "entrypoint": ["TestInterTxTestSuite"],
+  "test": [
+    "TestMsgSubmitTx_SuccessfulTransfer",
+    "TestMsgSubmitTx_FailedTransfer_InsufficientFunds"
+  ],
+  "chain-binary": ["icad"],
+  "chain-image": ["ghcr.io/cosmos/ibc-go-icad"]
+}

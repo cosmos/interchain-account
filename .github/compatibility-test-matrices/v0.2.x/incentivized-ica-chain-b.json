@@ -1,0 +1,11 @@
+{
+  "chain-a": ["v0.2.5", "v0.4.1", "v0.3.5", "v0.1.7"],
+  "chain-b": ["v0.2.5"],
+  "entrypoint": ["TestIncentivizedInterTxTestSuite"],
+  "test": [
+    "TestMsgSubmitTx_SuccessfulBankSend_Incentivized",
+    "TestMsgSubmitTx_FailedBankSend_Incentivized"
+  ],
+  "chain-binary": ["icad"],
+  "chain-image": ["ghcr.io/cosmos/ibc-go-icad"]
+}
