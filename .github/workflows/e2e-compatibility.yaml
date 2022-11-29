@@ -10,66 +10,98 @@ env:
   IMAGE_NAME: ibc-go-icad
 
 jobs:
-  ica-chain-a:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch:
-          - v0.1.x # ibc-go v3
-          - v0.2.x # ibc-go v4
-          - v0.3.x # ibc-go v5
-          - v0.4.x # ibc-go v6
-    steps:
-    - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-      with:
-        test-file-directory: ${{ matrix.branch }}
-        test-suite: ica-chain-a
+  ica-chain-a-v0.1.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.1.x
+      test-suite: ica-chain-a
 
-  ica-chain-b:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch:
-          - v0.1.x # ibc-go v3
-          - v0.2.x # ibc-go v4
-          - v0.3.x # ibc-go v5
-          - v0.4.x # ibc-go v6
-    steps:
-      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-        with:
-          test-file-directory: ${{ matrix.branch }}
-          test-suite: ica-chain-b
+  ica-chain-b-v0.1.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.1.x
+      test-suite: ica-chain-b
 
-  incentivized-ica-chain-a:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch:
-          - v0.1.x # ibc-go v3
-          - v0.2.x # ibc-go v4
-          - v0.3.x # ibc-go v5
-          - v0.4.x # ibc-go v6
-    steps:
-      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-        with:
-          test-file-directory: ${{ matrix.branch }}
-          test-suite: incentivized-ica-chain-a
+  incentivized-ica-chain-a-v0.1.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: incentivized-ica-chain-a
 
-  incentivized-ica-chain-b:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch:
-          - v0.1.x # ibc-go v3
-          - v0.2.x # ibc-go v4
-          - v0.3.x # ibc-go v5
-          - v0.4.x # ibc-go v6
-    steps:
-      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-        with:
-          test-file-directory: ${{ matrix.branch }}
-          test-suite: incentivized-ica-chain-b
+  incentivized-ica-chain-b-v0.1.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: incentivized-ica-chain-b
+
+  ica-chain-a-v0.2.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: ica-chain-a
+
+  ica-chain-b-v0.2.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: ica-chain-b
+
+  incentivized-ica-chain-a-v0.2.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: incentivized-ica-chain-a
+
+  incentivized-ica-chain-b-v0.2.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.2.x
+      test-suite: incentivized-ica-chain-b
+
+  ica-chain-a-v0.3.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.3.x
+      test-suite: ica-chain-a
+
+  ica-chain-b-v0.3.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.3.x
+      test-suite: ica-chain-b
+
+  incentivized-ica-chain-a-v0.3.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.3.x
+      test-suite: incentivized-ica-chain-a
+
+  incentivized-ica-chain-b-v0.3.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.3.x
+      test-suite: incentivized-ica-chain-b
+
+  ica-chain-a-v0.4.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.4.x
+      test-suite: ica-chain-a
+
+  ica-chain-b-v0.4.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.4.x
+      test-suite: ica-chain-b
+
+  incentivized-ica-chain-a-v0.4.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.4.x
+      test-suite: incentivized-ica-chain-a
+
+  incentivized-ica-chain-b-v0.4.x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.4.x
+      test-suite: incentivized-ica-chain-b
