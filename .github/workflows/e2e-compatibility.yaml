@@ -2,6 +2,7 @@ name: Compatibility E2E
 
 on:
   workflow_dispatch:
+  push:
 
 env:
   REGISTRY: ghcr.io
@@ -9,42 +10,66 @@ env:
   IMAGE_NAME: ibc-go-icad
 
 jobs:
-  build-release-images:
+  ica-chain-a:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        release-branch:
-          - release/v0.1.x # ibc-go v3
-          - release/v0.2.x # ibc-go v4
-          - release/v0.3.x # ibc-go v5
+        branch:
+          - v0.1.x # ibc-go v3
+          - v0.2.x # ibc-go v4
+          - v0.3.x # ibc-go v5
+          - v0.4.x # ibc-go v6
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: '${{ matrix.release-branch }}'
-          fetch-depth: 0
-      - name: Log in to the Container registry
-        if: env.RELEASE_BRANCH == matrix.release-branch
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-        with:
-          registry: '${{ env.REGISTRY }}'
-          username: '${{ github.actor }}'
-          password: '${{ secrets.GITHUB_TOKEN }}'
-      - name: Build image
-        run: |
-          docker_tag="$(echo ${{ matrix.release-branch }} | sed 's/\//-/')"
-          docker build . -t "${REGISTRY}/${ORG}/${IMAGE_NAME}:$docker_tag"
-          docker push "${REGISTRY}/${ORG}/${IMAGE_NAME}:$docker_tag"
+    - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+      with:
+        test-file-directory: ${{ matrix.branch }}
+        test-suite: ica-chain-a
 
-  icad-chain-a:
-    needs: build-release-images
-    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-    with:
-      test-file-directory: icad
-      test-suite: icad-chain-a
+  ica-chain-b:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - v0.1.x # ibc-go v3
+          - v0.2.x # ibc-go v4
+          - v0.3.x # ibc-go v5
+          - v0.4.x # ibc-go v6
+    steps:
+      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+        with:
+          test-file-directory: ${{ matrix.branch }}
+          test-suite: ica-chain-b
 
-  icad-chain-b:
-    needs: build-release-images
-    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
-    with:
-      test-file-directory: icad
-      test-suite: icad-chain-b
+  incentivized-ica-chain-a:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - v0.1.x # ibc-go v3
+          - v0.2.x # ibc-go v4
+          - v0.3.x # ibc-go v5
+          - v0.4.x # ibc-go v6
+    steps:
+      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+        with:
+          test-file-directory: ${{ matrix.branch }}
+          test-suite: incentivized-ica-chain-a
+
+  incentivized-ica-chain-b:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - v0.1.x # ibc-go v3
+          - v0.2.x # ibc-go v4
+          - v0.3.x # ibc-go v5
+          - v0.4.x # ibc-go v6
+    steps:
+      - uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+        with:
+          test-file-directory: ${{ matrix.branch }}
+          test-suite: incentivized-ica-chain-b
