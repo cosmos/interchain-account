@@ -6,9 +6,9 @@ require (
 	cosmossdk.io/api v0.2.6
 	cosmossdk.io/simapp v0.0.0-20221216140705-ee8890cf30e7
 	cosmossdk.io/tools/rosetta v0.2.0
-	github.com/cosmos/cosmos-sdk v0.47.0-alpha2.0.20221216140705-ee8890cf30e7
+	github.com/cosmos/cosmos-sdk v0.47.0-rc1
 	github.com/cosmos/gogoproto v1.4.3
-	github.com/cosmos/ibc-go/v6 v6.0.0-20221215180413-3226aeb0207c
+	github.com/cosmos/ibc-go/v7 v7.0.0-20230116115230-0f9f91b20687
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
 	github.com/gorilla/mux v1.8.0
@@ -164,5 +164,3 @@ require (
 	pgregory.net/rapid v0.5.3 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
-
-replace github.com/cosmos/ibc-go/v6 => github.com/notional-labs/ibc-go/v6 v6.0.0-20221218165119-c6d4224d1dac
