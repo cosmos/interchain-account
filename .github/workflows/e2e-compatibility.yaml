@@ -96,3 +96,28 @@ jobs:
     with:
       test-file-directory: v0.4.x
       test-suite: incentivized-ica-chain-b
+
+  # v0.5.x / ibc-go v7
+  ica-chain-a-v0-5-x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.5.x
+      test-suite: ica-chain-a
+
+  ica-chain-b-v0-5-x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.5.x
+      test-suite: ica-chain-b
+
+  incentivized-ica-chain-a-v0-5-x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.5.x
+      test-suite: incentivized-ica-chain-a
+
+  incentivized-ica-chain-b-v0-5-x:
+    uses: cosmos/ibc-go/.github/workflows/e2e-compatibility-workflow-call.yaml@main
+    with:
+      test-file-directory: v0.5.x
+      test-suite: incentivized-ica-chain-b
