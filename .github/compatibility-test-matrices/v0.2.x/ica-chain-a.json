@@ -1,6 +1,6 @@
 {
   "chain-a": ["v0.2.5"],
-  "chain-b": ["v0.2.5", "v0.4.3", "v0.3.5", "v0.1.7"],
+  "chain-b": ["v0.2.5", "v0.4.3", "v0.3.5""],
   "entrypoint": ["TestInterTxTestSuite"],
   "test": [
     "TestMsgSubmitTx_SuccessfulTransfer",

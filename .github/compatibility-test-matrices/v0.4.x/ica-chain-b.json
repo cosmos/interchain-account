@@ -1,5 +1,5 @@
 {
-  "chain-a": ["v0.4.3", "v0.3.5", "v0.2.5", "v0.1.7"],
+  "chain-a": ["v0.4.3", "v0.3.5", "v0.2.5"],
   "chain-b": ["v0.4.3"],
   "entrypoint": ["TestInterTxTestSuite"],
   "test": [
