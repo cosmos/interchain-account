@@ -52,7 +52,7 @@ func (msg MsgRegisterAccount) GetSigners() []sdk.AccAddress {
 
 // NewMsgSubmitTx creates and returns a new MsgSubmitTx instance
 func NewMsgSubmitTx(sdkMsg sdk.Msg, connectionID, owner string) (*MsgSubmitTx, error) {
-	any, err := PackTxMsgAny(sdkMsg)
+	protoAny, err := PackTxMsgAny(sdkMsg)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func NewMsgSubmitTx(sdkMsg sdk.Msg, connectionID, owner string) (*MsgSubmitTx, e
 	return &MsgSubmitTx{
 		ConnectionId: connectionID,
 		Owner:        owner,
-		Msg:          any,
+		Msg:          protoAny,
 	}, nil
 }
 
@@ -71,12 +71,12 @@ func PackTxMsgAny(sdkMsg sdk.Msg) (*codectypes.Any, error) {
 		return nil, fmt.Errorf("can't proto marshal %T", sdkMsg)
 	}
 
-	any, err := codectypes.NewAnyWithValue(msg)
+	protoAny, err := codectypes.NewAnyWithValue(msg)
 	if err != nil {
 		return nil, err
 	}
 
-	return any, nil
+	return protoAny, nil
 }
 
 // UnpackInterfaces implements codectypes.UnpackInterfacesMessage
