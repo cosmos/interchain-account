@@ -1,3 +1,7 @@
+# ☠️ ARCHIVED ☠️
+
+### ⚠️ This repository is no longer maintained. Use it at your own risk. ☢️
+
 # Interchain Accounts
 
 Developers integrating Interchain Accounts may choose to firstly enable host chain functionality, and add authentication modules later as desired.
