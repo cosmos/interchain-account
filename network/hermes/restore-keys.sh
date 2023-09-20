@@ -7,8 +7,8 @@ set -e
 ### Sleep is needed otherwise the relayer crashes when trying to init
 sleep 1
 ### Restore Keys
-$HERMES_BINARY -c ./network/hermes/config.toml keys restore test-1 -m "alley afraid soup fall idea toss can goose become valve initial strong forward bright dish figure check leopard decide warfare hub unusual join cart"
+$HERMES_BINARY --config ./network/hermes/config.toml keys restore test-1 -m "alley afraid soup fall idea toss can goose become valve initial strong forward bright dish figure check leopard decide warfare hub unusual join cart"
 sleep 5
 
-$HERMES_BINARY -c ./network/hermes/config.toml keys restore test-2 -m "record gift you once hip style during joke field prize dust unique length more pencil transfer quit train device arrive energy sort steak upset"
+$HERMES_BINARY --config ./network/hermes/config.toml keys restore test-2 -m "record gift you once hip style during joke field prize dust unique length more pencil transfer quit train device arrive energy sort steak upset"
 sleep 5
